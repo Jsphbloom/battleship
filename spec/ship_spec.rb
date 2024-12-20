@@ -3,6 +3,8 @@ require './spec/spec_helper'
 RSpec.describe Ship do
     before(:each) do
         @cruiser = Ship.new("Cruiser", 3)
+        @cell_1 = Cell.new("B4")
+        @cell_2 = Cell.new("C3")
     end
 
     it 'can initialize' do
@@ -32,4 +34,27 @@ RSpec.describe Ship do
         @cruiser.hit
         expect(@cruiser.sunk?).to eq(true)
     end
+
+    it 'returns a string when rendered' do
+        expect(@cell_1.render).to eq(".")
+    end
+
+    it 'displays the correct string when render is called' do
+        @cell_2.place_ship(@cruiser)
+        expect(@cell_2.render).to eq(".")
+        @cell_2.fire_upon
+        expect(@cell_2.render).to eq("H")
+        @cell_1.fire_upon
+        expect(@cell_1.render).to eq("M")
+        @cell_2.fire_upon
+        @cell_2.fire_upon
+        expect(@cell_2.render).to eq("X")
+    end
+
+    it 'displays S when called true' do
+        @cell_2.place_ship(@cruiser)
+        expect(@cell_2.render(true)).to eq("S")
+        expect(@cell_2.render).to eq(".")
+    end
+
 end
