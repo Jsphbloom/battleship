@@ -83,4 +83,22 @@ RSpec.describe Board do
         expect(@cell_4.empty?).to eq(true)
         expect(@cell_2.ship).to eq(@cell_3.ship)
     end
+
+    it 'checks overlapping ships' do
+        @board.place(@cruiser, ["A1", "A2", "A3"])
+        expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to eq(false)
+        expect(@board.valid_placement?(@submarine, ["C1", "D1"])).to eq(true)
+        expect(@board.valid_placement?(@cruiser, ["D2", "D3", "D4"])).to eq(true)
+        @board.place(@cruiser, ["D2", "D3", "D4"])
+        expect(@board.valid_placement?(@submarine, ["D1", "D2"])).to eq(false)
+        expect(@cell_1.empty?).to eq(false)
+    end
+
+    # it 'renders the board' do
+    #     @board.render
+
+
+    #     @board.render(true)
+    # end
+
 end

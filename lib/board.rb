@@ -87,4 +87,11 @@ class Board
         end
     end
 
+    # def render(debug = false)
+    #    p "    1 2 3 4 \n
+    #         A . . . . \n
+    #         B . . . . \n
+    #         C . . . . \n
+    #         D . . . . \n"
+    # end
 end
