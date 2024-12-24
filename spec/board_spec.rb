@@ -5,6 +5,10 @@ RSpec.describe Board do
         @board = Board.new
         @cruiser = Ship.new("Cruiser", 3)
         @submarine = Ship.new("Submarine", 2)
+        @cell_1 = @board.cells["A1"]  
+        @cell_2 = @board.cells["A2"]
+        @cell_3 = @board.cells["A3"]    
+        @cell_4 = @board.cells["A4"] 
     end
 
     it 'can initialize' do
@@ -53,8 +57,7 @@ RSpec.describe Board do
         expect(@board.consecutive_numbers?(["A1", "B1", "C2"])).to eq(false)
         expect(@board.consecutive_numbers?(["A1", "A2", "C2"])).to eq(false)
         
-    end
-        
+    end       
         
     it 'same_letters?' do
         expect(@board.same_letters?(["A1", "A2"])).to eq(true)
@@ -71,4 +74,31 @@ RSpec.describe Board do
         expect(@board.same_numbers?(["A1", "A2", "A3"])).to eq(false)
         expect(@board.same_numbers?(["A1", "B1", "C2"])).to eq(false)
     end
+
+    it 'place' do
+        @board.place(@cruiser, ["A1", "A2", "A3"])
+        expect(@cell_1.empty?).to eq(false)
+        expect(@cell_2.empty?).to eq(false)
+        expect(@cell_3.empty?).to eq(false)
+        expect(@cell_4.empty?).to eq(true)
+        expect(@cell_2.ship).to eq(@cell_3.ship)
+    end
+
+    it 'checks overlapping ships' do
+        @board.place(@cruiser, ["A1", "A2", "A3"])
+        expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to eq(false)
+        expect(@board.valid_placement?(@submarine, ["C1", "D1"])).to eq(true)
+        expect(@board.valid_placement?(@cruiser, ["D2", "D3", "D4"])).to eq(true)
+        @board.place(@cruiser, ["D2", "D3", "D4"])
+        expect(@board.valid_placement?(@submarine, ["D1", "D2"])).to eq(false)
+        expect(@cell_1.empty?).to eq(false)
+    end
+
+    # it 'renders the board' do
+    #     @board.render
+
+
+    #     @board.render(true)
+    # end
+
 end

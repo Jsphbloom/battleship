@@ -80,4 +80,18 @@ class Board
         end
     end
 
+    def place(ship, coordinates)
+        valid_placement?(ship, coordinates)
+        coordinates.each do |coordinate|
+            @cells[coordinate].place_ship(ship)
+        end
+    end
+
+    # def render(debug = false)
+    #    p "    1 2 3 4 \n
+    #         A . . . . \n
+    #         B . . . . \n
+    #         C . . . . \n
+    #         D . . . . \n"
+    # end
 end
