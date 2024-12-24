@@ -85,7 +85,6 @@ class Board
         coordinates.each do |coordinate|
             @cells[coordinate].place_ship(ship)
         end
-        # binding.pry
     end
 
 end
