@@ -22,18 +22,34 @@ class Board
             "D4" => Cell.new("D4")}
     end
 
-    def valid_coordinate?(name)
-        @cells.has_key?(name)
+    def valid_coordinate?(coordinate)
+        @cells.has_key?(coordinate)
+    end
+
+    def valid_coordinates?(coordinates)
+        coordinates.all? do |coordinate|
+            valid_coordinate?(coordinate)
+        end
+    end
+
+    def coordinates_empty?(coordinates)
+        coordinates.all? do |coordinate|
+            @cells[coordinate].empty?
+        end
     end
     
     def valid_placement?(ship, coordinates)
         if coordinates.length == ship.length && 
             same_letters?(coordinates) &&
-            consecutive_numbers?(coordinates)
+            consecutive_numbers?(coordinates) &&
+            valid_coordinates?(coordinates) &&
+            coordinates_empty?(coordinates)
             true
         elsif coordinates.length == ship.length && 
             consecutive_letters?(coordinates) &&
-            same_numbers?(coordinates)
+            same_numbers?(coordinates)&&
+            valid_coordinates?(coordinates) &&
+            coordinates_empty?(coordinates)
             true
         else
             false

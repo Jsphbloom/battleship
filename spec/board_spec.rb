@@ -16,16 +16,26 @@ RSpec.describe Board do
         expect(@board.cells).to be_a(Hash)
     end
 
-    it 'tells if a coordinate is on the board or not do' do
+    it '#valid_coordinate?' do
         expect(@board.valid_coordinate?("A1")).to eq(true)
         expect(@board.valid_coordinate?("A5")).to eq(false)
     end
 
-    it 'checks if coordinate is valid placement for ship' do
+    it '#valid_coordinates?' do
+        expect(@board.valid_coordinates?(["A1", "A2", "A3"])).to eq(true)
+    end
+
+    it '#coordinates_empty?' do
+        expect(@board.coordinates_empty?(["A1", "A2"])).to eq(true)
+        
+    end
+
+    it '#valid_placement' do
         expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A3"])).to eq(true)
         expect(@board.valid_placement?(@submarine, ["B1", "C1"])).to eq(true)
         expect(@board.valid_placement?(@submarine, ["A1", "A2", "A4"])).to eq(false)
         expect(@board.valid_placement?(@cruiser, ["B1", "C1", "D3"])).to eq(false)
+        
     end
 
     it '#consecutive_letters' do
