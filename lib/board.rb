@@ -4,7 +4,7 @@ class Board
     attr_reader :cells
 
     def initialize
-       @cells = {"A1" => Cell.new("A1"),
+        @cells = {"A1" => Cell.new("A1"),
             "A2" => Cell.new("A2"),
             "A3" => Cell.new("A3"),
             "A4" => Cell.new("A4"),
@@ -87,11 +87,30 @@ class Board
         end
     end
 
-    # def render(debug = false)
-    #    p "    1 2 3 4 \n
-    #         A . . . . \n
-    #         B . . . . \n
-    #         C . . . . \n
-    #         D . . . . \n"
-    # end
+    def render(debug = false)
+        row_a = ["A", @cells["A1"].render, @cells["A2"].render, @cells["A3"].render, @cells["A4"].render].join(separator = " ")
+        puts row_a
+        
+    end
+
+
+        # "  1 2 3 4 \n" +
+        # "A . . . . \n" +
+        # "B . . . . \n" +
+        # "C . . . . \n" +
+        # "D . . . . \n"
+           # top_row = "  1 2 3 4 \n"
+        # rows = ["A", "B", "C", "D"]
+        # columns = ["1", "2", "3", "4"]
+        # rows.each do |row|
+        #     top_row += "#{row}"
+        #     columns.each do |col|
+        #         coordinate = "#{row}#{col}"
+        #         cell = @cells[coordinate]
+        #         top_row += "#{cell.render}"
+        #     end
+        #     top_row += "\n"
+        # end
+        # p top_row
+
 end

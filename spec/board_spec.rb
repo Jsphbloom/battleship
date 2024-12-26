@@ -93,12 +93,16 @@ RSpec.describe Board do
         expect(@board.valid_placement?(@submarine, ["D1", "D2"])).to eq(false)
         expect(@cell_1.empty?).to eq(false)
     end
-
-    # it 'renders the board' do
-    #     @board.render
-
-
-    #     @board.render(true)
-    # end
+    
+    it 'renders the board' do
+        @board.place(@cruiser, ["A1", "A2", "A3"])
+        # @board.render
+        @board.cells["A1"].fire_upon
+        @board.render
+        expect(@board.cells["A1"].fired_upon?).to be(true)
+        # binding.pry
+        # expect(@board.render).to eq("A H . . .")
+        
+    end
 
 end
