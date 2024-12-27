@@ -128,6 +128,11 @@ RSpec.describe Board do
         @board.render
     end
 
+    it 'can show hidden ships' do
+        @board.place(@submarine, ["C1", "D1"])
+        @board.cells["C1"].render(debug = true)
+        @board.render(true)
+    end
 
 
 end
