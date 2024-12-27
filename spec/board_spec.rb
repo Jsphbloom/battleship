@@ -93,12 +93,46 @@ RSpec.describe Board do
         expect(@board.valid_placement?(@submarine, ["D1", "D2"])).to eq(false)
         expect(@cell_1.empty?).to eq(false)
     end
+    
+    it 'renders the board' do
+        @board.render
+    end
 
-    # it 'renders the board' do
-    #     @board.render
+    it 'the board renders a miss' do
+        @board.cells["A1"].fire_upon
+        @board.render
+        expect(@board.cells["A1"].render).to eq("M")
+    end
 
+    it 'the board renders a hit' do
+        @board.place(@submarine, ["C1", "D1"])
+        @board.cells["C1"].fire_upon
+        @board.render
+        expect(@board.cells["C1"].render).to eq("H")
+    end
 
-    #     @board.render(true)
-    # end
+    it 'the board renders a sunk ship' do
+        @board.place(@submarine, ["C1", "D1"])
+        @board.cells["C1"].fire_upon
+        @board.cells["D1"].fire_upon
+        @board.render
+        expect(@board.cells["C1"].render).to eq("X")
+        expect(@board.cells["D1"].render).to eq("X")
+        # binding.pry
+    end
+
+    it 'cannot take a duplicate hit' do
+        @board.place(@submarine, ["C1", "D1"])
+        @board.cells["C1"].fire_upon
+        @board.cells["C1"].fire_upon
+        @board.render
+    end
+
+    it 'can show hidden ships' do
+        @board.place(@submarine, ["C1", "D1"])
+        @board.cells["C1"].render(debug = true)
+        @board.render(true)
+    end
+
 
 end

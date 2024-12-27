@@ -19,11 +19,13 @@ class Cell
     end
 
     def fire_upon
-        if @ship == nil
+        if @ship == nil && @fired_upon == false
             @fired_upon = true 
-        else @ship.sunk? == false
+        elsif @ship.sunk? == false && @fired_upon == false
             @fired_upon = true
             @ship.hit
+        else 
+            p "Coordinate already hit."
         end
     end
 
