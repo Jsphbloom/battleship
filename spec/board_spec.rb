@@ -95,14 +95,39 @@ RSpec.describe Board do
     end
     
     it 'renders the board' do
-        @board.place(@cruiser, ["A1", "A2", "A3"])
-        # @board.render
+        @board.render
+    end
+
+    it 'the board renders a miss' do
         @board.cells["A1"].fire_upon
         @board.render
-        expect(@board.cells["A1"].fired_upon?).to be(true)
-        # binding.pry
-        # expect(@board.render).to eq("A H . . .")
-        
+        expect(@board.cells["A1"].render).to eq("M")
     end
+
+    it 'the board renders a hit' do
+        @board.place(@submarine, ["C1", "D1"])
+        @board.cells["C1"].fire_upon
+        @board.render
+        expect(@board.cells["C1"].render).to eq("H")
+    end
+
+    it 'the board renders a sunk ship' do
+        @board.place(@submarine, ["C1", "D1"])
+        @board.cells["C1"].fire_upon
+        @board.cells["D1"].fire_upon
+        @board.render
+        expect(@board.cells["C1"].render).to eq("X")
+        expect(@board.cells["D1"].render).to eq("X")
+        # binding.pry
+    end
+
+    it 'cannot take a duplicate hit' do
+        @board.place(@submarine, ["C1", "D1"])
+        @board.cells["C1"].fire_upon
+        @board.cells["C1"].fire_upon
+        @board.render
+    end
+
+
 
 end

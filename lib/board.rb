@@ -88,8 +88,12 @@ class Board
     end
 
     def render(debug = false)
+        top_nums = [" ", "1", "2", "3", "4"].join(separator = " ")
         row_a = ["A", @cells["A1"].render, @cells["A2"].render, @cells["A3"].render, @cells["A4"].render].join(separator = " ")
-        puts row_a
+        row_b = ["B", @cells["B1"].render, @cells["B2"].render, @cells["B3"].render, @cells["B4"].render].join(separator = " ")
+        row_c = ["C", @cells["C1"].render, @cells["C2"].render, @cells["C3"].render, @cells["C4"].render].join(separator = " ")
+        row_d = ["D", @cells["D1"].render, @cells["D2"].render, @cells["D3"].render, @cells["D4"].render].join(separator = " ")
+        puts top_nums, row_a, row_b, row_c, row_d
         
     end
 
