@@ -16,36 +16,75 @@ class Game
         Enter p to play. Enter q to quit."
         user_input = gets.chomp
         if user_input == "p"
-            setup
+            puts "Arg! I've placed my ships matey!"
         elsif user_input == "q"
             puts "Goodbye!"
         else 
-            puts "Invalid input."
-            user_input
+            puts "Invalid input. Try again."
+            main_menu
         end
     end
         
-    def random_coord_generator
-        # random_coords = []
-        # @board_cpu.place(@cruiser_cpu, random_coords)
-            random_coord_cruiser = @board_cpu.cells.to_a.sample[0]
-            random_coord_cruiser_2 = random_coord_cruiser.ord + 1 
-            binding.pry
-        #     random_coord_cruiser_3 = @board_cpu.cells.to_a.sample[0]
-        #     random_coords << random_coord_cruiser
-        #     random_coords << random_coord_cruiser_2
-        #     random_coords << random_coord_cruiser_3
-        #     binding.pry
-
-        # @board_cpu.place(@cruiser_cpu, random_coords)
-        
+    def cruiser_random_placement
+        random_coords_cruiser = []
+        until @board_cpu.valid_placement?(@cruiser_cpu, random_coords_cruiser) == true
+            random_coords_cruiser.clear
+            random_coord1 = @board_cpu.cells.keys.sample
+            random_coord2 = @board_cpu.cells.keys.sample
+            random_coord3 = @board_cpu.cells.keys.sample
+            random_coords_cruiser << random_coord1
+            random_coords_cruiser << random_coord2
+            random_coords_cruiser << random_coord3
+        end
+        @board_cpu.place(@cruiser_cpu, random_coords_cruiser)
     end
 
-    def setup
-    # place cpu ships with random, but valid coordinates for BOTH ships
-
-        # 
-        
-        
+    def sub_random_placement
+        random_coords_sub = []
+        until @board_cpu.valid_placement?(@submarine_cpu, random_coords_sub) == true
+            random_coords_sub.clear
+            random_coord1 = @board_cpu.cells.keys.sample
+            random_coord2 = @board_cpu.cells.keys.sample
+            random_coords_sub << random_coord1
+            random_coords_sub << random_coord2
+        end
+        @board_cpu.place(@submarine_cpu, random_coords_sub)
+        # binding.pry
     end
+
+    def player_cruiser_placement
+        cruiser_user_coords = gets.chomp.upcase.delete(",").split
+        if @board_user.valid_placement?(@cruiser_user, cruiser_user_coords) == true
+            @board_user.place(@cruiser_user, cruiser_user_coords)
+        else
+            p "invalid placement, try again!"
+            player_cruiser_placement
+        end
+    end
+
+    def player_sub_placement
+        sub_user_coords = gets.chomp.upcase.delete(",").split
+        if @board_user.valid_placement?(@submarine_user, sub_user_coords) == true
+            @board_user.place(@submarine_user, sub_user_coords)
+        else
+            p "invalid placement, try again!"
+            player_sub_placement
+        end
+    end
+
+    def first_turn
+        @board_cpu.render
+        @board_user.render
+        p "the top one is your enemy's board, the bottom is yours! Protect it with your life!"
+        p "Choose a coordinate to fire upon your enemy's board."
+        first_fire = gets.chomp.upcase
+        @board_cpu.cells[first_fire].fire_upon
+        # binding.pry
+        random_cpu_shot = @board_user.cells.keys.sample
+        @board_user.cells[random_cpu_shot].fire_upon
+    end
+
+    #create another method for the rest of the turns
+    #another method for game end?
+
 end
