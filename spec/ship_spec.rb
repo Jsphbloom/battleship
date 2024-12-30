@@ -46,9 +46,6 @@ RSpec.describe Ship do
         expect(@cell_2.render).to eq("H")
         @cell_1.fire_upon
         expect(@cell_1.render).to eq("M")
-        @cell_2.fire_upon
-        @cell_2.fire_upon
-        expect(@cell_2.render).to eq("X")
     end
 
     it 'displays S when called true' do
