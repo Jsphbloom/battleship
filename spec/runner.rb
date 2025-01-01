@@ -22,4 +22,3 @@ require './spec/spec_helper'
 
     game.turn
 
-
