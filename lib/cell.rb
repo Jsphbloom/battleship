@@ -21,7 +21,7 @@ class Cell
     def fire_upon
         if @ship == nil && @fired_upon == false
             @fired_upon = true 
-        elsif @ship.sunk? == false && @fired_upon == false
+        elsif @ship != nil && @ship.sunk? == false && @fired_upon == false
             @fired_upon = true
             @ship.hit
         else 

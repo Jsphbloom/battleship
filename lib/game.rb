@@ -16,9 +16,10 @@ class Game
         Enter p to play. Enter q to quit."
         user_input = gets.chomp
         if user_input == "p"
-            puts "Arg! I've placed my ships matey!"
+            puts "Arg! The computer's placed it's ships, matey!"
         elsif user_input == "q"
             puts "Goodbye!"
+            main_menu
         else 
             puts "Invalid input. Try again."
             main_menu
@@ -72,19 +73,70 @@ class Game
         end
     end
 
-    def first_turn
-        @board_cpu.render
-        @board_user.render
-        p "the top one is your enemy's board, the bottom is yours! Protect it with your life!"
-        p "Choose a coordinate to fire upon your enemy's board."
-        first_fire = gets.chomp.upcase
-        @board_cpu.cells[first_fire].fire_upon
-        # binding.pry
+    def turn
+        if
+            @board_cpu.cells["A1"].fired_upon? == false &&
+            @board_cpu.cells["A2"].fired_upon? == false &&
+            @board_cpu.cells["A3"].fired_upon? == false &&
+            @board_cpu.cells["A4"].fired_upon? == false &&
+            @board_cpu.cells["B1"].fired_upon? == false &&
+            @board_cpu.cells["B2"].fired_upon? == false &&
+            @board_cpu.cells["B3"].fired_upon? == false &&
+            @board_cpu.cells["B4"].fired_upon? == false &&
+            @board_cpu.cells["C1"].fired_upon? == false &&
+            @board_cpu.cells["C2"].fired_upon? == false &&
+            @board_cpu.cells["C3"].fired_upon? == false &&
+            @board_cpu.cells["C4"].fired_upon? == false &&
+            @board_cpu.cells["D1"].fired_upon? == false &&
+            @board_cpu.cells["D2"].fired_upon? == false &&
+            @board_cpu.cells["D3"].fired_upon? == false &&
+            @board_cpu.cells["D4"].fired_upon? == false
+                @board_cpu.render
+                @board_user.render
+                p "the top one is your enemy's board, the bottom is yours! Protect it with your life!"
+                p "Choose a coordinate to fire upon your enemy's board."
+        else
+            p "Choose a coordinate to fire upon your enemy's board."
+        end
+
+        fire = gets.chomp.upcase
+        @board_cpu.cells[fire].fire_upon
+        
+        if @board_cpu.cells[fire].fired_upon? == true && @board_cpu.cells[fire].ship != nil && @board_cpu.cells[fire].ship.sunk? == true
+            p "your shot on #{fire} sunk their ship!"
+            @board_cpu.render
+        elsif @cruiser_cpu.sunk? == true && @submarine_cpu.sunk? == true
+            p "you win ya scallywag!"
+            @board_cpu.render
+        elsif @board_cpu.cells[fire].fired_upon? == true && @board_cpu.cells[fire].ship != nil
+            p "your shot on #{fire} was a hit!"
+            @board_cpu.render
+        else @board_cpu.cells[fire].fired_upon? == true && @board_cpu.cells[fire].ship == nil
+            p "your shot on #{fire} was a miss!"
+            @board_cpu.render
+        end
+
         random_cpu_shot = @board_user.cells.keys.sample
         @board_user.cells[random_cpu_shot].fire_upon
+
+        if @board_user.cells[random_cpu_shot].fired_upon? == true && @board_user.cells[random_cpu_shot].ship != nil && @board_user.cells[random_cpu_shot].ship.sunk? == true
+            p "The computer's shot on #{random_cpu_shot} sunk your ship!"
+            @board_user.render
+        elsif @cruiser_user.sunk? == true && @submarine_user.sunk? == true
+            p "you lose limey!"
+            @board_user.render
+        elsif @board_user.cells[random_cpu_shot].fired_upon? == true && @board_user.cells[random_cpu_shot].ship != nil
+            p "The computer's shot on #{random_cpu_shot} was a hit!"
+            @board_user.render
+        else @board_user.cells[random_cpu_shot].fired_upon? == true && @board_user.cells[random_cpu_shot].ship == nil
+            p "The computer's shot on #{random_cpu_shot} was a miss!"
+            @board_user.render
+        end
+
+        if (@cruiser_cpu.sunk? == true && @submarine_cpu.sunk?) || (@cruiser_user.sunk? == true && @submarine_user.sunk?)
+            main_menu
+        else
+            turn
+        end
     end
-
-    #create another method for the rest of the turns
-    #another method for game end?
-
 end
