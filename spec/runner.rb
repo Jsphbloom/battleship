@@ -6,7 +6,7 @@ require './spec/spec_helper'
 
     game.cruiser_random_placement
     game.sub_random_placement
-    game.board_user.render
+    game.board_user.render(true)
 
     p "Your turn sailor! Place yer cruiser! Enter 3 coordinates to place your ship."
 
@@ -20,5 +20,14 @@ require './spec/spec_helper'
 
     p "Nice typing! now the game can begin!"
 
+    # while game.cruiser_user.sunk? == false && game.submarine_user.sunk? == false || game.cruiser_cpu.sunk? == false && game.submarine_cpu.sunk? == false do
     game.user_turn
+    # game.cpu_turn
+    # end
+    # game.user_turn
+    # if game.game_over? == true
+    #     Game.new
+    #     game.main_menu
+    # end
+    
 

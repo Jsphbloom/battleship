@@ -19,7 +19,7 @@ class Game
             puts "Arg! The computer's placed it's ships, matey!"
         elsif user_input == "q"
             puts "Goodbye!"
-            main_menu
+            exit
         else
             puts "Invalid input. Try again."
             main_menu
@@ -92,7 +92,7 @@ class Game
             @board_cpu.cells["D3"].fired_upon? == false &&
             @board_cpu.cells["D4"].fired_upon? == false
                 @board_cpu.render
-                @board_user.render
+                @board_user.render(true)
                 p "the top one is your enemy's board, the bottom is yours! Protect it with your life!"
                 p "Choose a coordinate to fire upon your enemy's board."
         else
@@ -100,12 +100,12 @@ class Game
         end
 
         fire = gets.chomp.upcase
-        while @board_cpu.cells[fire].fired_upon? == true do
+        if @board_cpu.cells[fire].fired_upon? == true
             p "already shot, try again!"
             user_turn
+        else
+            @board_cpu.cells[fire].fire_upon
         end
-
-        @board_cpu.cells[fire].fire_upon
 
         if @board_cpu.cells[fire].fired_upon? == true && @board_cpu.cells[fire].ship != nil && @board_cpu.cells[fire].ship.sunk? == true
             p "your shot on #{fire} sunk their ship!"
@@ -113,42 +113,55 @@ class Game
         elsif @board_cpu.cells[fire].fired_upon? == true && @board_cpu.cells[fire].ship != nil
             p "your shot on #{fire} was a hit!"
             @board_cpu.render
-        elsif @board_cpu.cells[fire].fired_upon? == true && @board_cpu.cells[fire].ship == nil
+        else @board_cpu.cells[fire].fired_upon? == true && @board_cpu.cells[fire].ship == nil
             p "your shot on #{fire} was a miss!"
             @board_cpu.render
-        else 
         end
+        game_over?
         cpu_turn
     end
     
     def cpu_turn
-
         random_cpu_shot = @board_user.cells.keys.sample
-        while @board_user.cells[random_cpu_shot].fired_upon? == true do
+        if @board_user.cells[random_cpu_shot].fired_upon? == true
             cpu_turn
+        else
+            @board_user.cells[random_cpu_shot].fire_upon            
         end
-
-        @board_user.cells[random_cpu_shot].fire_upon
 
         if @board_user.cells[random_cpu_shot].fired_upon? == true && @board_user.cells[random_cpu_shot].ship != nil && @board_user.cells[random_cpu_shot].ship.sunk? == true
             p "The computer's shot on #{random_cpu_shot} sunk your ship!"
-            @board_user.render
+            @board_user.render(true)
         elsif @board_user.cells[random_cpu_shot].fired_upon? == true && @board_user.cells[random_cpu_shot].ship != nil
             p "The computer's shot on #{random_cpu_shot} was a hit!"
-            @board_user.render
+            @board_user.render(true)
         else @board_user.cells[random_cpu_shot].fired_upon? == true && @board_user.cells[random_cpu_shot].ship == nil
             p "The computer's shot on #{random_cpu_shot} was a miss!"
-            @board_user.render
+            @board_user.render(true)
         end
+        game_over?
+        user_turn
+    end
 
+    def game_over?(finish = false)
         if @cruiser_cpu.sunk? == true && @submarine_cpu.sunk? == true
             p "you win ya scallywag!"
-            main_menu
+            finish = true
+            p "this is the computer's board!"
+            @board_cpu.render
+            p "this is your board!"
+            @board_user.render
+            exit
         elsif @cruiser_user.sunk? == true && @submarine_user.sunk? == true
             p "Ya lose! Swab the deck!"
-            main_menu
+            finish = true
+            p "this is the computer's board!"
+            @board_cpu.render
+            p "this is your board!"
+            @board_user.render
+            exit
         else
-            user_turn
+            finish = false
         end
     end
 end

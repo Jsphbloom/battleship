@@ -30,14 +30,14 @@ class Cell
     end
 
     def render(debug = false)
-        if debug == true && @ship != nil
-            return "S"
-        elsif fired_upon? == true && @ship == nil
+        if fired_upon? == true && @ship == nil
             return "M"
         elsif fired_upon? == true && @ship != nil && @ship.sunk? == true
             return "X"
         elsif fired_upon? == true && @ship != nil
             return "H"
+        elsif debug == true && @ship != nil
+            return "S"
         else
             return "."
         end
