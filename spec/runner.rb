@@ -20,5 +20,5 @@ require './spec/spec_helper'
 
     p "Nice typing! now the game can begin!"
 
-    game.turn
+    game.user_turn
 
