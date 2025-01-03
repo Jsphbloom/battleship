@@ -1,4 +1,6 @@
 require './spec/spec_helper'
+require 'rainbow/refinement'
+using Rainbow
 
 class Board
     attr_reader :cells
@@ -109,25 +111,5 @@ class Board
         end
         
     end
-
-
-        # "  1 2 3 4 \n" +
-        # "A . . . . \n" +
-        # "B . . . . \n" +
-        # "C . . . . \n" +
-        # "D . . . . \n"
-           # top_row = "  1 2 3 4 \n"
-        # rows = ["A", "B", "C", "D"]
-        # columns = ["1", "2", "3", "4"]
-        # rows.each do |row|
-        #     top_row += "#{row}"
-        #     columns.each do |col|
-        #         coordinate = "#{row}#{col}"
-        #         cell = @cells[coordinate]
-        #         top_row += "#{cell.render}"
-        #     end
-        #     top_row += "\n"
-        # end
-        # p top_row
 
 end
