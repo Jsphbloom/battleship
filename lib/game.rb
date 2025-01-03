@@ -1,4 +1,7 @@
 require './spec/spec_helper'
+require 'rainbow/refinement'
+using Rainbow
+
 class Game 
     attr_accessor :board_cpu, :board_user, :cruiser_user, :cruiser_cpu, :submarine_user, :submarine_cpu
 
@@ -12,16 +15,29 @@ class Game
     end
 
     def main_menu   
-        puts "Welcome to BATTLESHIP
-        Enter p to play. Enter q to quit."
+        puts "                                    "
+        puts Rainbow("Welcome to BATTLESHIP").bright.turquoise
+        puts "                                    "
+        puts " .  o .."
+        puts " o . o o.o"
+        puts "      ...oo                    _~"
+        puts "       __[]__               _~ )_)_~"
+        puts "    __|_o_o_o|__            )_))_))_)"
+        puts "    |||||||||||/            _!__!__!__"
+        puts "     |. ..  . /            |________t/"
+        puts " ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+        puts "                                    "
+        puts Rainbow("Enter p to play. Enter q to quit.").turquoise.italic
         user_input = gets.chomp
+        puts "                                    "
         if user_input == "p"
-            puts "Arg! The computer's placed it's ships, matey!"
+            puts Rainbow("Arg! The computer's placed it's ships, matey!").firebrick
+            puts "                                    "
         elsif user_input == "q"
-            puts "Goodbye!"
+            puts Rainbow("Goodbye!").indianred
             exit
         else
-            puts "Invalid input. Try again."
+            puts Rainbow("Invalid input. Try again.").red.bright
             main_menu
         end
     end
@@ -50,7 +66,6 @@ class Game
             random_coords_sub << random_coord2
         end
         @board_cpu.place(@submarine_cpu, random_coords_sub)
-        # binding.pry
     end
 
     def player_cruiser_placement
@@ -58,7 +73,7 @@ class Game
         if @board_user.valid_placement?(@cruiser_user, cruiser_user_coords) == true
             @board_user.place(@cruiser_user, cruiser_user_coords)
         else
-            p "invalid placement, try again!"
+            puts Rainbow("Invalid placement, try again!").bright.red
             player_cruiser_placement
         end
     end
@@ -68,7 +83,7 @@ class Game
         if @board_user.valid_placement?(@submarine_user, sub_user_coords) == true
             @board_user.place(@submarine_user, sub_user_coords)
         else
-            p "invalid placement, try again!"
+            puts Rainbow("Invalid placement, try again!").bright.red
             player_sub_placement
         end
     end
@@ -91,30 +106,42 @@ class Game
             @board_cpu.cells["D2"].fired_upon? == false &&
             @board_cpu.cells["D3"].fired_upon? == false &&
             @board_cpu.cells["D4"].fired_upon? == false
+                puts "                                    "
                 @board_cpu.render
+                puts "                                    "
                 @board_user.render(true)
-                p "the top one is your enemy's board, the bottom is yours! Protect it with your life!"
-                p "Choose a coordinate to fire upon your enemy's board."
+                puts "                                    "
+                puts Rainbow("The top one is your enemy's board, the bottom is yours! Protect it with your life!").gold
+                puts "                                    "
+                puts Rainbow("Choose a coordinate to fire upon your enemy's board.").limegreen
         else
-            p "Choose a coordinate to fire upon your enemy's board."
+            puts Rainbow("Choose a coordinate to fire upon your enemy's board.").limegreen
         end
 
         fire = gets.chomp.upcase
         if @board_cpu.cells[fire].fired_upon? == true
-            p "already shot, try again!"
+            puts "                                    "
+            puts Rainbow( "Already shot, try again!").red
+            puts "                                    "
             user_turn
         else
             @board_cpu.cells[fire].fire_upon
         end
 
         if @board_cpu.cells[fire].fired_upon? == true && @board_cpu.cells[fire].ship != nil && @board_cpu.cells[fire].ship.sunk? == true
-            p "your shot on #{fire} sunk their ship!"
+            puts "                                    "
+            puts Rainbow("Your shot on #{fire} sunk their ship!").bright.red
+            puts "                                    "
             @board_cpu.render
         elsif @board_cpu.cells[fire].fired_upon? == true && @board_cpu.cells[fire].ship != nil
-            p "your shot on #{fire} was a hit!"
+            puts "                                    "
+            puts Rainbow("Your shot on #{fire} was a hit!").orange
+            puts "                                    "
             @board_cpu.render
         else @board_cpu.cells[fire].fired_upon? == true && @board_cpu.cells[fire].ship == nil
-            p "your shot on #{fire} was a miss!"
+            puts "                                    "
+            puts Rainbow("Your shot on #{fire} was a miss!").yellow
+            puts "                                    "
             @board_cpu.render
         end
         game_over?
@@ -130,13 +157,19 @@ class Game
         end
 
         if @board_user.cells[random_cpu_shot].fired_upon? == true && @board_user.cells[random_cpu_shot].ship != nil && @board_user.cells[random_cpu_shot].ship.sunk? == true
-            p "The computer's shot on #{random_cpu_shot} sunk your ship!"
+            puts "                                    "
+            puts Rainbow("The computer's shot on #{random_cpu_shot} sunk your ship!").bright.red
+            puts "                                    "
             @board_user.render(true)
         elsif @board_user.cells[random_cpu_shot].fired_upon? == true && @board_user.cells[random_cpu_shot].ship != nil
-            p "The computer's shot on #{random_cpu_shot} was a hit!"
+            puts "                                    "
+            puts Rainbow("The computer's shot on #{random_cpu_shot} was a hit!").orange
+            puts "                                    "
             @board_user.render(true)
         else @board_user.cells[random_cpu_shot].fired_upon? == true && @board_user.cells[random_cpu_shot].ship == nil
-            p "The computer's shot on #{random_cpu_shot} was a miss!"
+            puts "                                    "
+            puts Rainbow("The computer's shot on #{random_cpu_shot} was a miss!").yellow
+            puts "                                    "
             @board_user.render(true)
         end
         game_over?
@@ -145,23 +178,71 @@ class Game
 
     def game_over?(finish = false)
         if @cruiser_cpu.sunk? == true && @submarine_cpu.sunk? == true
-            p "you win ya scallywag!"
+            puts "                                    "
+            puts Rainbow("You win ya scallywag!").bright.limegreen
             finish = true
-            p "this is the computer's board!"
+            puts "                                    "
+            puts Rainbow("This is the computer's board!").firebrick
+            puts "                                    "
             @board_cpu.render
-            p "this is your board!"
+            puts "                                    "
+            puts Rainbow("This is your board!").limegreen
+            puts "                                    "
             @board_user.render
-            exit
+            puts "                                    "
+            winning_ship
+            end_of_game
         elsif @cruiser_user.sunk? == true && @submarine_user.sunk? == true
-            p "Ya lose! Swab the deck!"
+            puts "                                    "
+            puts Rainbow("Ya lose! Swab the deck!").bright.red
+            puts "                                    "
             finish = true
-            p "this is the computer's board!"
+            puts "                                    "
+            puts Rainbow("This is the computer's board!").firebrick
+            puts "                                    "
             @board_cpu.render
-            p "this is your board!"
+            puts "                                    "
+            puts Rainbow("This is your board!").limegreen
+            puts "                                    "
             @board_user.render
-            exit
+            # insert exploding ship
+            end_of_game
         else
             finish = false
         end
     end
+
+    def end_of_game
+        puts Rainbow("To play again, enter p. To quit, enter q").turquoise
+        input = gets.chomp.upcase.strip
+        if input == "P" 
+            load('./spec/runner.rb')
+        elsif input == "Q"
+            exit
+        else
+            puts Rainbow("Invalid input, try again").red
+            end_of_game
+        end
+    end
+
+    def winning_ship
+        puts "                                          |__"
+        puts "                                          | ||"
+        puts "                                          ---"
+        puts "                                          / | ["
+        puts "                                   !      | |||"
+        puts "                                 _/|     _/|-++'"
+        puts "                             +  +--|    |--|--|_ |-"
+        puts "                          { /|__|  |/|__|  |--- |||__/"
+        puts "                         +---------------___[}-_===_.'____                 /|"
+        puts "                     ____`-' ||___-{]_| _[}-  |     |_[___|==--            ||   _"
+        puts "      __..._____--==/___]_|__|_____________________________[___|==--____,------' .7"
+        puts "    |                                                                   JB-2412/"
+        puts "     |________________________________________________________________________/"
+    end
+
+    # def losing_explosion
+
+
+    # end
 end

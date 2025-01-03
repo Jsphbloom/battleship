@@ -1,33 +1,36 @@
 require './spec/spec_helper'
+require 'rainbow/refinement'
+using Rainbow
 
     game = Game.new
 
     game.main_menu
 
     game.cruiser_random_placement
+    
     game.sub_random_placement
+    
+    game.board_user.render(true)
+    puts "                                    "
+    puts Rainbow("Your turn sailor! Place yer cruiser! Enter 3 coordinates to place your ship.").limegreen
+    
+    
+    game.player_cruiser_placement  
+    puts "                                    "
     game.board_user.render(true)
 
-    p "Your turn sailor! Place yer cruiser! Enter 3 coordinates to place your ship."
-
-    game.player_cruiser_placement      
-    game.board_user.render(true)
-
-    p "Great job captain! next up, place your submarine! Only 2 coordinates for this one!"
-
+    puts "                                    "
+    puts Rainbow("Great job captain! next up, place your submarine! Only 2 coordinates for this one!").limegreen
+    puts "                                    "
+    
     game.player_sub_placement
+    puts "                                    "
     game.board_user.render(true)
 
-    p "Nice typing! now the game can begin!"
-
-    # while game.cruiser_user.sunk? == false && game.submarine_user.sunk? == false || game.cruiser_cpu.sunk? == false && game.submarine_cpu.sunk? == false do
+    puts "                                    "
+    puts Rainbow("Nice typing! Now the game can begin!").gold
+    
     game.user_turn
-    # game.cpu_turn
-    # end
-    # game.user_turn
-    # if game.game_over? == true
-    #     Game.new
-    #     game.main_menu
-    # end
+    game.end_of_game
     
 

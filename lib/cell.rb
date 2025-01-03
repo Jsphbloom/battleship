@@ -1,3 +1,6 @@
+require 'rainbow/refinement'
+using Rainbow
+
 class Cell
     attr_reader :coordinate, :ship
     def initialize(coordinate)
@@ -25,21 +28,21 @@ class Cell
             @fired_upon = true
             @ship.hit
         else 
-            p "Coordinate already hit."
+            puts Rainbow("Coordinate already hit.").bright.red
         end
     end
 
     def render(debug = false)
         if fired_upon? == true && @ship == nil
-            return "M"
+            return Rainbow("M").yellow
         elsif fired_upon? == true && @ship != nil && @ship.sunk? == true
-            return "X"
+            return Rainbow("X").red
         elsif fired_upon? == true && @ship != nil
-            return "H"
+            return Rainbow("H").orange
         elsif debug == true && @ship != nil
-            return "S"
+            return Rainbow("S").limegreen
         else
-            return "."
+            return Rainbow(".").blue
         end
     end
 end
