@@ -195,7 +195,6 @@ class Game
         elsif @cruiser_user.sunk? == true && @submarine_user.sunk? == true
             puts "                                    "
             puts Rainbow("Ya lose! Swab the deck!").bright.red
-            puts "                                    "
             finish = true
             puts "                                    "
             puts Rainbow("This is the computer's board!").firebrick
@@ -205,7 +204,7 @@ class Game
             puts Rainbow("This is your board!").limegreen
             puts "                                    "
             @board_user.render
-            # insert exploding ship
+            losing_explosion
             end_of_game
         else
             finish = false
@@ -228,7 +227,7 @@ class Game
     def winning_ship
         puts "                                          |__"
         puts "                                          | ||"
-        puts "                                          ---"
+        puts "             YOU WIN!!!                    ---"
         puts "                                          / | ["
         puts "                                   !      | |||"
         puts "                                 _/|     _/|-++'"
@@ -239,10 +238,21 @@ class Game
         puts "      __..._____--==/___]_|__|_____________________________[___|==--____,------' .7"
         puts "    |                                                                   JB-2412/"
         puts "     |________________________________________________________________________/"
+        puts "       "
     end
 
-    # def losing_explosion
-
-
-    # end
+    def losing_explosion
+        puts "          _.-^^---....,,--_"       
+        puts "       _--        --       --_"  
+        puts "     <                        >)"
+        puts "     |        YOU LOSE...      |"
+        puts "      \._                   _./ " 
+        puts "         ```--. . , ; .--''' "      
+        puts "               | |   |"             
+        puts "            .-=||  | |=-."   
+        puts "            `-=#$%&%$#=-'"   
+        puts "               | ;  :|"     
+        puts "       _____.,-#%&$@%#&#~,._____"
+        puts "       "
+    end
 end
