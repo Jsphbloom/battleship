@@ -46,40 +46,40 @@ class Game
 
 ################################
 
-def get_dimension_height
-    puts " "
-    puts Rainbow("Choose a number from 0 to 25.").limegreen
-    puts " "
-    height = gets.chomp.to_i
-    if height > 25 || height < 0
-        get_dimension_height
+    def get_dimension_height
+        puts " "
+        puts Rainbow("Choose a number from 0 to 25.").limegreen
+        puts " "
+        height = gets.chomp.to_i
+        if height > 25 || height < 0
+            get_dimension_height
+        end
+        return height
     end
-    return height
-end
 
-def get_dimension_width
-    puts " "
-    puts Rainbow("Choose any positive number.").limegreen
-    puts " "
-    width = gets.chomp.to_i
-    if width.negative?
-        get_dimension_width
+    def get_dimension_width
+        puts " "
+        puts Rainbow("Choose any positive number.").limegreen
+        puts " "
+        width = gets.chomp.to_i
+        if width.negative?
+            get_dimension_width
+        end
+        return width
     end
-    return width
-end
 
-def setup_boards
-    height = get_dimension_height
-    width = get_dimension_width
-    @board_cpu = Board.new(height, width)
-    @board_user = Board.new(height, width)
-end
+    def setup_boards
+        height = get_dimension_height
+        width = get_dimension_width
+        @board_cpu = Board.new(height, width)
+        @board_user = Board.new(height, width)
+    end
 
 ###############################
 
-def cruiser_random_placement
-    random_coords_cruiser = []
-    until @board_cpu.valid_placement?(@cruiser_cpu, random_coords_cruiser) == true
+    def cruiser_random_placement
+        random_coords_cruiser = []
+        until @board_cpu.valid_placement?(@cruiser_cpu, random_coords_cruiser) == true
             random_coords_cruiser.clear
             random_coord1 = @board_cpu.cells.keys.sample
             random_coord2 = @board_cpu.cells.keys.sample
@@ -150,6 +150,7 @@ def cruiser_random_placement
                 puts " "
                 puts Rainbow("Choose a coordinate to fire upon your enemy's board.").limegreen
         else
+            puts " "
             puts Rainbow("Choose a coordinate to fire upon your enemy's board.").limegreen
         end
 
