@@ -6,6 +6,17 @@ using Rainbow
 
     game.main_menu
 
+    ###
+
+    game.setup_boards
+
+    game.board_user.render
+    puts " "
+    puts Rainbow("Here's yer board, exactly to specifications!").limegreen
+    puts " "
+    
+    ###
+
     game.cruiser_random_placement
     
     game.sub_random_placement

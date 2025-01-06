@@ -6,7 +6,7 @@ RSpec.describe Cell do
         @cruiser = Ship.new("Cruiser", 3)
     end
 
-    it 'intialize'do 
+    it 'initialize' do 
         expect(@cell).to be_an_instance_of(Cell)
         expect(@cell.coordinate).to eq("B4")
         expect(@cell.ship).to eq(nil)
