@@ -220,11 +220,11 @@ class Game
             puts " "
             puts Rainbow("This is the computer's board!").firebrick
             puts " "
-            @board_cpu.render
+            @board_cpu.render(true)
             puts " "
             puts Rainbow("This is your board!").limegreen
             puts " "
-            @board_user.render
+            @board_user.render(true)
             puts " "
             winning_ship
             end_of_game
@@ -235,11 +235,11 @@ class Game
             puts " "
             puts Rainbow("This is the computer's board!").firebrick
             puts " "
-            @board_cpu.render
+            @board_cpu.render(true)
             puts " "
             puts Rainbow("This is your board!").limegreen
             puts " "
-            @board_user.render
+            @board_user.render(true)
             losing_explosion
             end_of_game
         else
