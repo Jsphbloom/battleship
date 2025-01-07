@@ -7,6 +7,8 @@ class Board
 
     def initialize(height, width)
         @cells = {}
+        @height = height
+        @width = width
         ("A"...("A".ord + height).chr).each do |row|
             (1..width).each do |col|
                 coordinate = "#{row}#{col}"
@@ -100,21 +102,42 @@ class Board
         end
     end
 
+    def generate_rows
+        @cells.keys.split[0][0] == "A"
+        #     #shovel into "A" row width times
+        # end
+        # end
+    end
+    
     def render(debug = false)
         if debug == false
-            top_nums = [" ", "1", "2", "3", "4"].join(separator = " ")
-            row_a = ["A", @cells["A1"].render, @cells["A2"].render, @cells["A3"].render, @cells["A4"].render].join(separator = " ")
-            row_b = ["B", @cells["B1"].render, @cells["B2"].render, @cells["B3"].render, @cells["B4"].render].join(separator = " ")
-            row_c = ["C", @cells["C1"].render, @cells["C2"].render, @cells["C3"].render, @cells["C4"].render].join(separator = " ")
-            row_d = ["D", @cells["D1"].render, @cells["D2"].render, @cells["D3"].render, @cells["D4"].render].join(separator = " ")
-            puts top_nums, row_a, row_b, row_c, row_d
-        else 
-            top_nums = [" ", "1", "2", "3", "4"].join(separator = " ")
-            row_a = ["A", @cells["A1"].render(true), @cells["A2"].render(true), @cells["A3"].render(true), @cells["A4"].render(true)].join(separator = " ")
-            row_b = ["B", @cells["B1"].render(true), @cells["B2"].render(true), @cells["B3"].render(true), @cells["B4"].render(true)].join(separator = " ")
-            row_c = ["C", @cells["C1"].render(true), @cells["C2"].render(true), @cells["C3"].render(true), @cells["C4"].render(true)].join(separator = " ")
-            row_d = ["D", @cells["D1"].render(true), @cells["D2"].render(true), @cells["D3"].render(true), @cells["D4"].render(true)].join(separator = " ")
-            puts top_nums, row_a, row_b, row_c, row_d
+            top_nums = (1..@width).to_a.join(separator = " ")
+            puts "  #{top_nums}"
+            @cells.values.each_slice(@width).with_index do |row, index|
+                rendered_row = row.map(&:render).join(" ")
+                puts "#{('A'.ord + index).chr} #{rendered_row}"
+            end
+
+            # row_a = ["A", @cells["A1"].render, @cells["A2"].render, @cells["A3"].render, @cells["A4"].render].join(separator = " ")
+            # row_b = ["B", @cells["B1"].render, @cells["B2"].render, @cells["B3"].render, @cells["B4"].render].join(separator = " ")
+            # row_c = ["C", @cells["C1"].render, @cells["C2"].render, @cells["C3"].render, @cells["C4"].render].join(separator = " ")
+            # row_d = ["D", @cells["D1"].render, @cells["D2"].render, @cells["D3"].render, @cells["D4"].render].join(separator = " ")
+            # # puts top_nums, row_a, row_b, row_c, row_d
+        else
+            top_nums = (1..@width).to_a.join(separator = " ")
+            puts "  #{top_nums}"
+            @cells.values.each_slice(@width).with_index do |row, index|
+                rendered_row = row.map { |cell|
+                    cell.render(true) }.join(" ")
+                puts "#{('A'.ord + index).chr} #{rendered_row}"
+            end
+
+            # top_nums = [" ", "1", "2", "3", "4"].join(separator = " ")
+            # row_a = ["A", @cells["A1"].render(true), @cells["A2"].render(true), @cells["A3"].render(true), @cells["A4"].render(true)].join(separator = " ")
+            # row_b = ["B", @cells["B1"].render(true), @cells["B2"].render(true), @cells["B3"].render(true), @cells["B4"].render(true)].join(separator = " ")
+            # row_c = ["C", @cells["C1"].render(true), @cells["C2"].render(true), @cells["C3"].render(true), @cells["C4"].render(true)].join(separator = " ")
+            # row_d = ["D", @cells["D1"].render(true), @cells["D2"].render(true), @cells["D3"].render(true), @cells["D4"].render(true)].join(separator = " ")
+            # # puts top_nums, row_a, row_b, row_c, row_d
         end
         
     end
