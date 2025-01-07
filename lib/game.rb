@@ -292,3 +292,18 @@ class Game
         puts "       "
     end
 end
+
+
+#remove ships from initialize, replace with empty hashes for user and cpu
+#add method for creating ships using gets.chomp
+    #how many different kinds of ships (gets.chomp x)
+    #(loop x times) name and size of each ship (ship(gets.chomp, gets.chomp))
+        #specify quantity
+            #shovel into ships hash (both user and cpu)
+
+#update ships place method to loop x times for each ship based on it's length
+
+# random_coord1 = @board_cpu.cells.keys.sample
+# random_coord2 = @board_cpu.cells.keys.sample
+# random_coords_sub << random_coord1
+# random_coords_sub << random_coord2           TURN INTO LOOP!
