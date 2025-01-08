@@ -22,23 +22,23 @@ using Rainbow
     game.sub_random_placement
     
     game.board_user.render(true)
-    puts "                                    "
-    puts Rainbow("Your turn sailor! Place yer cruiser! Enter 3 coordinates to place your ship.").limegreen
+    puts " "
+    puts Rainbow("Place yer cruiser, sailor! Enter 3 coordinates to place your ship.").limegreen
     
     
     game.player_cruiser_placement  
-    puts "                                    "
+    puts " "
     game.board_user.render(true)
 
-    puts "                                    "
+    puts " "
     puts Rainbow("Great job captain! next up, place your submarine! Only 2 coordinates for this one!").limegreen
-    puts "                                    "
+    puts " "
     
     game.player_sub_placement
-    puts "                                    "
+    puts " "
     game.board_user.render(true)
 
-    puts "                                    "
+    puts " "
     puts Rainbow("Nice typing! Now the game can begin!").gold
     
     game.user_turn

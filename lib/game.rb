@@ -29,11 +29,17 @@ class Game
         puts "     |. ..  . /            |________t/"
         puts " ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
         puts " "
+        puts Rainbow("RULES OF THE GAME").gold
+        puts Rainbow("The goal is to destroy all the ships of your opponent!").orange
+        puts Rainbow("Take turns shooting at the board of your opponent by selecting a coordinate, while they shoot at yours.").orange
+        puts Rainbow("the first player to sink all the ships of their opponent, wins!").orange
+        puts " "
         puts Rainbow("Enter p to play. Enter q to quit.").turquoise.italic
+        puts " "
         user_input = gets.chomp
         puts " "
         if user_input == "p"
-            puts Rainbow("Arg! The computer's placed it's ships, matey!").firebrick
+            puts Rainbow("Let the games begin!").firebrick
             puts " "
         elsif user_input == "q"
             puts Rainbow("Goodbye!").indianred
@@ -149,9 +155,11 @@ class Game
                 puts Rainbow("The top one is your enemy's board, the bottom is yours! Protect it with your life!").gold
                 puts " "
                 puts Rainbow("Choose a coordinate to fire upon your enemy's board.").limegreen
+                puts " "
         else
             puts " "
             puts Rainbow("Choose a coordinate to fire upon your enemy's board.").limegreen
+            puts " "
         end
 
         fire = gets.chomp.upcase
@@ -274,7 +282,7 @@ class Game
         puts "      __..._____--==/___]_|__|_____________________________[___|==--____,------' .7"
         puts "    |                                                                   JB-2412/"
         puts "     |________________________________________________________________________/"
-        puts "       "
+        puts " "
     end
 
     def losing_explosion
@@ -289,10 +297,9 @@ class Game
         puts "            `-=#$%&%$#=-'"   
         puts "               | ;  :|"     
         puts "       _____.,-#%&$@%#&#~,._____"
-        puts "       "
+        puts " "
     end
 end
-
 
 #remove ships from initialize, replace with empty hashes for user and cpu
 #add method for creating ships using gets.chomp
