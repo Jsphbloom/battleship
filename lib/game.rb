@@ -6,14 +6,14 @@ class Game
     attr_accessor :board_cpu, :board_user, :cruiser_user, :cruiser_cpu, :submarine_user, :submarine_cpu
 
     def initialize
-        # @board_user = Board.new
-        # @board_cpu = Board.new
         @board_cpu = nil
         @board_user = nil
         @cruiser_user = Ship.new("Cruiser", 3)
         @submarine_user = Ship.new("Submarine", 2)
         @cruiser_cpu = Ship.new("Cruiser", 3)
         @submarine_cpu = Ship.new("Submarine", 2)
+        @height = 0
+        @width = 0
     end
 
     def main_menu   
@@ -29,11 +29,17 @@ class Game
         puts "     |. ..  . /            |________t/"
         puts " ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
         puts " "
+        puts Rainbow("RULES OF THE GAME").gold.underline
+        puts Rainbow("The goal is to destroy all the ships of your opponent!").orange
+        puts Rainbow("Take turns shooting at the board of your opponent by selecting a coordinate, while they shoot at yours.").orange
+        puts Rainbow("the first player to sink all the ships of their opponent, wins!").orange
+        puts " "
         puts Rainbow("Enter p to play. Enter q to quit.").turquoise.italic
+        puts " "
         user_input = gets.chomp
         puts " "
         if user_input == "p"
-            puts Rainbow("Arg! The computer's placed it's ships, matey!").firebrick
+            puts Rainbow("Let the games begin!").firebrick
             puts " "
         elsif user_input == "q"
             puts Rainbow("Goodbye!").indianred
@@ -44,38 +50,32 @@ class Game
         end
     end
 
-################################
-
     def get_dimension_height
         puts " "
-        puts Rainbow("Choose a number from 0 to 25.").limegreen
+        puts Rainbow("Choose a number from 3 to 25.").limegreen
         puts " "
-        height = gets.chomp.to_i
-        if height > 25 || height < 0
+        @height = gets.chomp.to_i
+        if @height > 25 || @height < 3
             get_dimension_height
         end
-        return height
     end
 
     def get_dimension_width
         puts " "
-        puts Rainbow("Choose any positive number.").limegreen
+        puts Rainbow("Choose any positive number from 3 to 9.").limegreen
         puts " "
-        width = gets.chomp.to_i
-        if width.negative?
+        @width = gets.chomp.to_i
+        if @width < 3 || @width > 9
             get_dimension_width
         end
-        return width
     end
 
     def setup_boards
-        height = get_dimension_height
-        width = get_dimension_width
+        height = @height
+        width = @width
         @board_cpu = Board.new(height, width)
         @board_user = Board.new(height, width)
     end
-
-###############################
 
     def cruiser_random_placement
         random_coords_cruiser = []
@@ -104,7 +104,7 @@ class Game
     end
 
     def player_cruiser_placement
-        cruiser_user_coords = gets.chomp.upcase.delete(",").split
+        cruiser_user_coords = gets.chomp.upcase.delete(",").split #look into RegEx
         if @board_user.valid_placement?(@cruiser_user, cruiser_user_coords) == true
             @board_user.place(@cruiser_user, cruiser_user_coords)
         else
@@ -125,37 +125,28 @@ class Game
 
     def user_turn
         if @board_cpu.cells.all? {|coordinate, cell| cell.fired_upon? == false}
-        #     @board_cpu.cells["A1"].fired_upon? == false &&
-        #     @board_cpu.cells["A2"].fired_upon? == false &&
-        #     @board_cpu.cells["A3"].fired_upon? == false &&
-        #     @board_cpu.cells["A4"].fired_upon? == false &&
-        #     @board_cpu.cells["B1"].fired_upon? == false &&
-        #     @board_cpu.cells["B2"].fired_upon? == false &&
-        #     @board_cpu.cells["B3"].fired_upon? == false &&
-        #     @board_cpu.cells["B4"].fired_upon? == false &&
-        #     @board_cpu.cells["C1"].fired_upon? == false &&
-        #     @board_cpu.cells["C2"].fired_upon? == false &&
-        #     @board_cpu.cells["C3"].fired_upon? == false &&
-        #     @board_cpu.cells["C4"].fired_upon? == false &&
-        #     @board_cpu.cells["D1"].fired_upon? == false &&
-        #     @board_cpu.cells["D2"].fired_upon? == false &&
-        #     @board_cpu.cells["D3"].fired_upon? == false &&
-        #     @board_cpu.cells["D4"].fired_upon? == false
-                puts " "
-                @board_cpu.render
-                puts " "
-                @board_user.render(true)
-                puts " "
-                puts Rainbow("The top one is your enemy's board, the bottom is yours! Protect it with your life!").gold
-                puts " "
-                puts Rainbow("Choose a coordinate to fire upon your enemy's board.").limegreen
+            puts " "
+            @board_cpu.render
+            puts " "
+            @board_user.render(true)
+            puts " "
+            puts Rainbow("The top one is your enemy's board, the bottom is yours! Protect it with your life!").gold
+            puts " "
+            # puts Rainbow("Choose a coordinate to fire upon your enemy's board.").limegreen
+            # puts " "
         else
             puts " "
-            puts Rainbow("Choose a coordinate to fire upon your enemy's board.").limegreen
         end
+        puts Rainbow("Choose a coordinate to fire upon your enemy's board.").limegreen
+        puts " "
 
         fire = gets.chomp.upcase
-        if @board_cpu.cells[fire].fired_upon? == true
+        if @board_cpu.cells.include?(fire) == false
+            puts " "
+            puts Rainbow( "Enter a valid input!").red
+            puts " "
+            user_turn
+        elsif @board_cpu.cells[fire].fired_upon? == true
             puts " "
             puts Rainbow( "Already shot, try again!").red
             puts " "
@@ -189,7 +180,7 @@ class Game
         if @board_user.cells[random_cpu_shot].fired_upon? == true
             cpu_turn
         else
-            @board_user.cells[random_cpu_shot].fire_upon            
+            @board_user.cells[random_cpu_shot].fire_upon
         end
 
         if @board_user.cells[random_cpu_shot].fired_upon? == true && @board_user.cells[random_cpu_shot].ship != nil && @board_user.cells[random_cpu_shot].ship.sunk? == true
@@ -249,6 +240,7 @@ class Game
 
     def end_of_game
         puts Rainbow("To play again, enter p. To quit, enter q").turquoise
+        puts " "
         input = gets.chomp.upcase.strip
         if input == "P" 
             load('./spec/runner.rb')
@@ -271,10 +263,10 @@ class Game
         puts "                          { /|__|  |/|__|  |--- |||__/"
         puts "                         +---------------___[}-_===_.'____                 /|"
         puts "                     ____`-' ||___-{]_| _[}-  |     |_[___|==--            ||   _"
-        puts "      __..._____--==/___]_|__|_____________________________[___|==--____,------' .7"
+        puts "      __..._____--==/___]_|__|_____________________________[___|==--____,------'.7"
         puts "    |                                                                   JB-2412/"
         puts "     |________________________________________________________________________/"
-        puts "       "
+        puts " "
     end
 
     def losing_explosion
@@ -289,21 +281,6 @@ class Game
         puts "            `-=#$%&%$#=-'"   
         puts "               | ;  :|"     
         puts "       _____.,-#%&$@%#&#~,._____"
-        puts "       "
+        puts " "
     end
 end
-
-
-#remove ships from initialize, replace with empty hashes for user and cpu
-#add method for creating ships using gets.chomp
-    #how many different kinds of ships (gets.chomp x)
-    #(loop x times) name and size of each ship (ship(gets.chomp, gets.chomp))
-        #specify quantity
-            #shovel into ships hash (both user and cpu)
-
-#update ships place method to loop x times for each ship based on it's length
-
-# random_coord1 = @board_cpu.cells.keys.sample
-# random_coord2 = @board_cpu.cells.keys.sample
-# random_coords_sub << random_coord1
-# random_coords_sub << random_coord2           TURN INTO LOOP!

@@ -23,7 +23,7 @@ class Cell
 
     def fire_upon
         if @ship == nil && @fired_upon == false
-            @fired_upon = true 
+            @fired_upon = true
         elsif @ship != nil && @ship.sunk? == false && @fired_upon == false
             @fired_upon = true
             @ship.hit
@@ -35,7 +35,7 @@ class Cell
     def render(debug = false)
         if fired_upon? == true && @ship == nil
             return Rainbow("M").yellow
-        elsif fired_upon? == true && @ship != nil && @ship.sunk? == true
+        elsif fired_upon? == true && @ship != nil && @ship.sunk? == true #can write as !ship
             return Rainbow("X").red
         elsif fired_upon? == true && @ship != nil
             return Rainbow("H").orange
