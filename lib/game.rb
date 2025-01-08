@@ -6,8 +6,6 @@ class Game
     attr_accessor :board_cpu, :board_user, :cruiser_user, :cruiser_cpu, :submarine_user, :submarine_cpu
 
     def initialize
-        # @board_user = Board.new
-        # @board_cpu = Board.new
         @board_cpu = nil
         @board_user = nil
         @cruiser_user = Ship.new("Cruiser", 3)
@@ -29,7 +27,7 @@ class Game
         puts "     |. ..  . /            |________t/"
         puts " ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
         puts " "
-        puts Rainbow("RULES OF THE GAME").gold
+        puts Rainbow("RULES OF THE GAME").gold.underline
         puts Rainbow("The goal is to destroy all the ships of your opponent!").orange
         puts Rainbow("Take turns shooting at the board of your opponent by selecting a coordinate, while they shoot at yours.").orange
         puts Rainbow("the first player to sink all the ships of their opponent, wins!").orange
@@ -50,14 +48,12 @@ class Game
         end
     end
 
-################################
-
     def get_dimension_height
         puts " "
-        puts Rainbow("Choose a number from 0 to 25.").limegreen
+        puts Rainbow("Choose a number from 3 to 25.").limegreen
         puts " "
         height = gets.chomp.to_i
-        if height > 25 || height < 0
+        if height > 25 || height < 3
             get_dimension_height
         end
         return height
@@ -65,10 +61,10 @@ class Game
 
     def get_dimension_width
         puts " "
-        puts Rainbow("Choose any positive number.").limegreen
+        puts Rainbow("Choose any positive number from 3 to 9.").limegreen
         puts " "
         width = gets.chomp.to_i
-        if width.negative?
+        if width < 3 || width > 9
             get_dimension_width
         end
         return width
@@ -80,8 +76,6 @@ class Game
         @board_cpu = Board.new(height, width)
         @board_user = Board.new(height, width)
     end
-
-###############################
 
     def cruiser_random_placement
         random_coords_cruiser = []
@@ -131,22 +125,6 @@ class Game
 
     def user_turn
         if @board_cpu.cells.all? {|coordinate, cell| cell.fired_upon? == false}
-        #     @board_cpu.cells["A1"].fired_upon? == false &&
-        #     @board_cpu.cells["A2"].fired_upon? == false &&
-        #     @board_cpu.cells["A3"].fired_upon? == false &&
-        #     @board_cpu.cells["A4"].fired_upon? == false &&
-        #     @board_cpu.cells["B1"].fired_upon? == false &&
-        #     @board_cpu.cells["B2"].fired_upon? == false &&
-        #     @board_cpu.cells["B3"].fired_upon? == false &&
-        #     @board_cpu.cells["B4"].fired_upon? == false &&
-        #     @board_cpu.cells["C1"].fired_upon? == false &&
-        #     @board_cpu.cells["C2"].fired_upon? == false &&
-        #     @board_cpu.cells["C3"].fired_upon? == false &&
-        #     @board_cpu.cells["C4"].fired_upon? == false &&
-        #     @board_cpu.cells["D1"].fired_upon? == false &&
-        #     @board_cpu.cells["D2"].fired_upon? == false &&
-        #     @board_cpu.cells["D3"].fired_upon? == false &&
-        #     @board_cpu.cells["D4"].fired_upon? == false
                 puts " "
                 @board_cpu.render
                 puts " "
@@ -279,7 +257,7 @@ class Game
         puts "                          { /|__|  |/|__|  |--- |||__/"
         puts "                         +---------------___[}-_===_.'____                 /|"
         puts "                     ____`-' ||___-{]_| _[}-  |     |_[___|==--            ||   _"
-        puts "      __..._____--==/___]_|__|_____________________________[___|==--____,------' .7"
+        puts "      __..._____--==/___]_|__|_____________________________[___|==--____,------'.7"
         puts "    |                                                                   JB-2412/"
         puts "     |________________________________________________________________________/"
         puts " "
@@ -300,17 +278,3 @@ class Game
         puts " "
     end
 end
-
-#remove ships from initialize, replace with empty hashes for user and cpu
-#add method for creating ships using gets.chomp
-    #how many different kinds of ships (gets.chomp x)
-    #(loop x times) name and size of each ship (ship(gets.chomp, gets.chomp))
-        #specify quantity
-            #shovel into ships hash (both user and cpu)
-
-#update ships place method to loop x times for each ship based on it's length
-
-# random_coord1 = @board_cpu.cells.keys.sample
-# random_coord2 = @board_cpu.cells.keys.sample
-# random_coords_sub << random_coord1
-# random_coords_sub << random_coord2           TURN INTO LOOP!

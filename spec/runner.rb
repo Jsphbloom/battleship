@@ -6,25 +6,19 @@ using Rainbow
 
     game.main_menu
 
-    ###
-
     game.setup_boards
-
-    game.board_user.render
-    puts " "
-    puts Rainbow("Here's yer board, exactly to specifications!").limegreen
-    puts " "
     
-    ###
-
     game.cruiser_random_placement
     
     game.sub_random_placement
     
+    puts " "
     game.board_user.render(true)
     puts " "
+    puts Rainbow("Here's yer board, exactly to specifications!").bright.limegreen
+    puts " "
     puts Rainbow("Place yer cruiser, sailor! Enter 3 coordinates to place your ship.").limegreen
-    
+    puts " "
     
     game.player_cruiser_placement  
     puts " "
