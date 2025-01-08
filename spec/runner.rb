@@ -6,6 +6,10 @@ using Rainbow
 
     game.main_menu
 
+    game.get_dimension_height
+
+    game.get_dimension_width
+    
     game.setup_boards
     
     game.cruiser_random_placement

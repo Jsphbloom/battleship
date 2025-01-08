@@ -42,7 +42,7 @@ class Board
             true
         elsif coordinates.length == ship.length && 
             consecutive_letters?(coordinates) &&
-            same_numbers?(coordinates)&&
+            same_numbers?(coordinates) &&
             valid_coordinates?(coordinates) &&
             coordinates_empty?(coordinates)
             true
@@ -80,13 +80,10 @@ class Board
             coordinates.each do |coordinate|
                 @cells[coordinate].place_ship(ship)
             end
-            true
-        else 
-            false
         end
     end
     
-    def render(debug = false)
+    def render(debug = false) #change method name
         if debug == false
         
             top_nums = (1..@width).to_a.join(separator = " ")

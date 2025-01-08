@@ -12,6 +12,8 @@ class Game
         @submarine_user = Ship.new("Submarine", 2)
         @cruiser_cpu = Ship.new("Cruiser", 3)
         @submarine_cpu = Ship.new("Submarine", 2)
+        @height = 0
+        @width = 0
     end
 
     def main_menu   
@@ -52,27 +54,25 @@ class Game
         puts " "
         puts Rainbow("Choose a number from 3 to 25.").limegreen
         puts " "
-        height = gets.chomp.to_i
-        if height > 25 || height < 3
+        @height = gets.chomp.to_i
+        if @height > 25 || @height < 3
             get_dimension_height
         end
-        return height
     end
 
     def get_dimension_width
         puts " "
         puts Rainbow("Choose any positive number from 3 to 9.").limegreen
         puts " "
-        width = gets.chomp.to_i
-        if width < 3 || width > 9
+        @width = gets.chomp.to_i
+        if @width < 3 || @width > 9
             get_dimension_width
         end
-        return width
     end
 
     def setup_boards
-        height = get_dimension_height
-        width = get_dimension_width
+        height = @height
+        width = @width
         @board_cpu = Board.new(height, width)
         @board_user = Board.new(height, width)
     end
@@ -104,7 +104,7 @@ class Game
     end
 
     def player_cruiser_placement
-        cruiser_user_coords = gets.chomp.upcase.delete(",").split
+        cruiser_user_coords = gets.chomp.upcase.delete(",").split #look into RegEx
         if @board_user.valid_placement?(@cruiser_user, cruiser_user_coords) == true
             @board_user.place(@cruiser_user, cruiser_user_coords)
         else
@@ -125,23 +125,28 @@ class Game
 
     def user_turn
         if @board_cpu.cells.all? {|coordinate, cell| cell.fired_upon? == false}
-                puts " "
-                @board_cpu.render
-                puts " "
-                @board_user.render(true)
-                puts " "
-                puts Rainbow("The top one is your enemy's board, the bottom is yours! Protect it with your life!").gold
-                puts " "
-                puts Rainbow("Choose a coordinate to fire upon your enemy's board.").limegreen
-                puts " "
+            puts " "
+            @board_cpu.render
+            puts " "
+            @board_user.render(true)
+            puts " "
+            puts Rainbow("The top one is your enemy's board, the bottom is yours! Protect it with your life!").gold
+            puts " "
+            # puts Rainbow("Choose a coordinate to fire upon your enemy's board.").limegreen
+            # puts " "
         else
             puts " "
-            puts Rainbow("Choose a coordinate to fire upon your enemy's board.").limegreen
-            puts " "
         end
+        puts Rainbow("Choose a coordinate to fire upon your enemy's board.").limegreen
+        puts " "
 
         fire = gets.chomp.upcase
-        if @board_cpu.cells[fire].fired_upon? == true
+        if @board_cpu.cells.include?(fire) == false
+            puts " "
+            puts Rainbow( "Enter a valid input!").red
+            puts " "
+            user_turn
+        elsif @board_cpu.cells[fire].fired_upon? == true
             puts " "
             puts Rainbow( "Already shot, try again!").red
             puts " "
@@ -175,7 +180,7 @@ class Game
         if @board_user.cells[random_cpu_shot].fired_upon? == true
             cpu_turn
         else
-            @board_user.cells[random_cpu_shot].fire_upon            
+            @board_user.cells[random_cpu_shot].fire_upon
         end
 
         if @board_user.cells[random_cpu_shot].fired_upon? == true && @board_user.cells[random_cpu_shot].ship != nil && @board_user.cells[random_cpu_shot].ship.sunk? == true
@@ -235,6 +240,7 @@ class Game
 
     def end_of_game
         puts Rainbow("To play again, enter p. To quit, enter q").turquoise
+        puts " "
         input = gets.chomp.upcase.strip
         if input == "P" 
             load('./spec/runner.rb')
